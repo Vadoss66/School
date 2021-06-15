@@ -1,0 +1,125 @@
+﻿<UserControl x:Class="School.View.Personal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:School.ViewModel"
+             d:DataContext="{d:DesignInstance viewModel:PersonViewModel}"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="30" MinHeight="30" MaxHeight="30" />
+        </Grid.RowDefinitions>
+        <DataGrid ItemsSource="{Binding AppContext.Persons}"
+                  SelectedItem="{Binding Person}"
+                  CanUserDeleteRows="False"
+                  CanUserSortColumns="False"
+                  CanUserResizeRows="False"
+                      SelectionMode="Single"
+                  CanUserAddRows="False"
+                  AutoGenerateColumns="False"
+                  GridLinesVisibility="Horizontal"
+                  FontSize="22">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn IsReadOnly="True" Header="ФИО">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding lastName}" />
+                                <Run Text="{Binding name}" />
+                                <Run Text="{Binding patronimic}" />
+                                <Line X1="10" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn IsReadOnly="True" Header="Должность">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding Position.positionName}" />
+                                <Line X1="10" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn IsReadOnly="True" Header="Телефон">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding phone}" />
+                                <Line X1="10" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DockPanel
+            DockPanel.Dock="Bottom"
+            HorizontalAlignment="Center"
+            Grid.Row="1" Grid.Column="0">
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Center"
+                Content="Добавить"
+                Command="{Binding OpenAdd}"/>
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Center"
+                Content="Изменить"
+                Command="{Binding UpdateOpenCommand}"/>
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Center"
+                Content="Удалить"
+                Command="{Binding DeleteCommand}"/>
+        </DockPanel>
+        <ScrollViewer
+            Grid.Column="1"
+            Grid.RowSpan="2">
+            <DockPanel>
+                <Image DockPanel.Dock="Top"
+                Height="200"
+                HorizontalAlignment="Center"
+                Source="{Binding}" />
+                <TextBlock DockPanel.Dock="Top"
+                       FontSize="36"
+                       HorizontalAlignment="Center">
+                <Run Text="{Binding Person.lastName}" />
+                <Run Text="{Binding Person.name}" />
+                <Run Text="{Binding Person.patronymic}" />
+                </TextBlock>
+                <TextBlock DockPanel.Dock="Top"
+                       FontSize="20">
+                <Run>Должность:</Run>
+                <Run Text="{Binding Person.Position.positionName}" />
+                <LineBreak />
+                <Run>Классы:</Run>
+                <Run Text="{Binding ClassesPerson}" />
+                <LineBreak />
+                <Run>Дата рождения:</Run>
+                <Run Text="{Binding Person.birthday, StringFormat='{}{0:dd.MM.yyyy}'}" />
+                <LineBreak />
+                <Run>Телефон:</Run>
+                <Run Text="{Binding Person.phone}" />
+                <LineBreak />
+                <Run>Адрес:</Run>
+                <Run Text="{Binding Person.address}" />
+                <LineBreak />
+                <Run>Номер паспорта:</Run>
+                <Run Text="{Binding Person.address}" />
+                <LineBreak />
+                </TextBlock>
+            </DockPanel>
+        </ScrollViewer>
+        <Border  BorderBrush="#4A4A5E" BorderThickness="0,0,5,0">
+        </Border>
+    </Grid>
+</UserControl>

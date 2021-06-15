@@ -1,0 +1,20 @@
+﻿<controls:AdonisWindow x:Class="School.View.Add.RoomAdd"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                       xmlns:local="clr-namespace:School.View"
+                       xmlns:viewModel="clr-namespace:School.ViewModel"
+                       xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+                       d:DataContext="{d:DesignInstance viewModel:RoomViewModel}"
+                       mc:Ignorable="d" 
+                       d:DesignHeight="550" d:DesignWidth="400">
+    <StackPanel Margin="20">
+        <Label>Номер кабинета:</Label>
+        <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <DockPanel HorizontalAlignment="Center">
+            <Button Content="Добавить" Margin="10" 
+                    Command="{Binding AddCommand}"></Button>
+        </DockPanel>
+    </StackPanel>
+</controls:AdonisWindow>

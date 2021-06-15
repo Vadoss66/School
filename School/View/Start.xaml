@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="School.View.Start"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:local="clr-namespace:School.View"
+          xmlns:extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+          xmlns:controls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+          xmlns:viewModel="clr-namespace:School.ViewModel"
+        d:DataContext="{d:DesignInstance viewModel:StartVM}"
+          mc:Ignorable="d">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+        <Label>Login:</Label>
+        <TextBox extensions:WatermarkExtension.Watermark="Введите ваш логин"></TextBox>
+        <Label>Password:</Label>
+        <PasswordBox extensions:WatermarkExtension.Watermark="Введите ваш пароль"></PasswordBox>
+        <Button Margin="20" Width="100"
+                Command="{Binding Open}"
+                Content="Войти" Click="Button_Click"></Button>
+    </StackPanel>
+</UserControl>

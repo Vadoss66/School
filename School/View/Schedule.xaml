@@ -1,0 +1,209 @@
+﻿<UserControl x:Class="School.View.Schedule"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:School.ViewModel"
+             xmlns:converters="clr-namespace:School.Converters"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModel:ScheduleViewModel}"
+             Name="This"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:ColorRandomConverter x:Key="ColorRandomConverter"></converters:ColorRandomConverter>
+        <Style TargetType="ListBoxItem" x:Key="StyleListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter Margin="0" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#00000000" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="30" />
+            <RowDefinition />
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ListBox VerticalAlignment="Center"
+                 ItemsSource="{Binding AppContext.Classes}"
+                 SelectedItem="{Binding Class}"
+                 ItemContainerStyle="{StaticResource StyleListBoxItem}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Border Background="Gray" DataContext="{Binding ElementName=This,Path=DataContext}" Height="80" Width="80" CornerRadius="50" >
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="BorderThickness" Value="5" />
+                                    <Setter Property="BorderBrush" Value="Gray" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                     Value="true">
+                                            <Setter Property="BorderBrush" Value="Aqua" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                        <TextBlock FontSize="22"
+                                   FontWeight="ExtraBlack"
+                                   Foreground="AliceBlue"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center">
+                            <Run Text="{Binding classNumber}" />
+                            <Run Text="{Binding letter}" />
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+            <Border  BorderBrush="#4A4A5E" BorderThickness="5,5,5,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Command="{Binding Day1}">Понедельник</Button>
+                    <Button Grid.Column="1" Command="{Binding Day2}">Вторник</Button>
+                    <Button Grid.Column="2" Command="{Binding Day3}">Среда</Button>
+                    <Button Grid.Column="3" Command="{Binding Day4}">Четверг</Button>
+                    <Button Grid.Column="4" Command="{Binding Day5}">Пятница</Button>
+                    <Button Grid.Column="5" Command="{Binding Day6}">Суббота</Button>
+                    <Button Grid.Column="6" Command="{Binding Day7}">Воскресенье</Button>
+                </Grid>
+            </Border>
+           
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border  BorderBrush="#4A4A5E" BorderThickness="5">
+            </Border>
+            <Label FontSize="30" VerticalAlignment="Center">
+                <Label.LayoutTransform>
+                    <RotateTransform Angle="270" />
+                </Label.LayoutTransform>
+                <AccessText Text="{Binding CurrentDay.Name}" />
+            </Label>
+            <Border Grid.Column="1" BorderBrush="#4A4A5E" BorderThickness="0,5,5,5">
+            <DataGrid  ItemsSource="{Binding LessonsFiltered}"
+                      SelectedItem="{Binding Lesson}"
+                      CanUserDeleteRows="False"
+                      CanUserSortColumns="False"
+                      CanUserResizeRows="False"
+                      CanUserAddRows="False"
+                      CanUserResizeColumns="False"
+                      AutoGenerateColumns="False"
+                      GridLinesVisibility="Horizontal"
+                      SelectionMode="Single"
+                      FontSize="22">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn IsReadOnly="True" Header="Номер урока">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <Run Text="{Binding LessonTime.number}" />
+                                    <Run Text=")" />
+                                    <Line X1="10" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn IsReadOnly="True" Header="Время урока">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <Run Text="{Binding LessonTime.start}" />
+                                    <Run Text="-" />
+                                    <Run Text="{Binding LessonTime.end}" />
+                                    <Line X1="10" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn IsReadOnly="True" Header="Дисциплина">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <Run Text="{Binding LessonName.name}" />
+                                    <Line X1="10" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn IsReadOnly="True" Header="Преподаватель">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <Run Text="{Binding Person.name}" />
+                                    <Run Text="{Binding Person.lastName}" />
+                                    <Line X1="10" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn IsReadOnly="True" Header="Кабинет">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <Run Text="{Binding Room.number}" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            </Border>
+        </Grid>
+        <DockPanel
+            DockPanel.Dock="Bottom"
+            HorizontalAlignment="Center"
+            Grid.Row="3" Grid.Column="0">
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Center"
+                Command="{Binding OpenAdd}" 
+                Content="Добавить" />
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Center"
+                Content="Изменить"
+                Command="{Binding UpdateOpenCommand}"/>
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Center"
+                Content="Удалить"
+                Command="{Binding DeleteCommand}" />
+        </DockPanel>
+    </Grid>
+</UserControl>

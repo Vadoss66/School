@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="School.View.LessonTime"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             d:DataContext="{d:DesignInstance viewModel:LessonTimeViewModel}"
+             xmlns:local="clr-namespace:School.View"
+             xmlns:viewModel="clr-namespace:School.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="30" MinHeight="30" MaxHeight="30"/>
+        </Grid.RowDefinitions>
+        <DataGrid ItemsSource="{Binding AppContext.LessonTimes}"
+                  SelectedItem="{Binding LessonTime}"
+                  CanUserDeleteRows="False"
+                  CanUserResizeRows="False"
+                  CanUserAddRows="False"
+                  CanUserResizeColumns="False"
+                  AutoGenerateColumns="False"
+                      SelectionMode="Single"
+                  GridLinesVisibility="Horizontal"
+                  FontSize="22">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn IsReadOnly="True" Header="Номер">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding number}" />
+                                <Line X1="10" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn IsReadOnly="True" Header="Время урока">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding start}" />
+                                <Run Text="-"/>
+                                <Run Text="{Binding end}" />
+                                <Line X1="10" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DockPanel
+            DockPanel.Dock="Bottom"
+            HorizontalAlignment="Center"
+            Grid.Row="1" Grid.Column="0">
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Center"
+                Command="{Binding OpenAdd}" 
+                Content="Добавить" />
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Center"
+                Content="Удалить"
+                Command="{Binding DeleteCommand}" />
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Center"
+                Content="Изменить"
+                Command="{Binding UpdateOpenCommand}" />
+        </DockPanel>
+    </Grid>
+</UserControl>
